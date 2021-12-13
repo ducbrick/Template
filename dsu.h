@@ -2,13 +2,10 @@
 using namespace std;
 
 struct Dsu{
-  int SIZE;
   vector <int> p;
 
   Dsu(int n){
-    SIZE = n + 1;
-
-    p.resize(SIZE, -1);
+    p.resize(n + 1, -1);
   }
 
   int size(int u){
