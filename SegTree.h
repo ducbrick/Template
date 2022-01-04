@@ -1,21 +1,29 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 struct SegTree {
-  typedef long long Type;
 
-  static const Type BASE_VALUE = 0;
+  /*-------------EDIT HERE--------------*/
+  typedef int Type;
+
+  static const Type BASE_VALUE = INT_MIN;
 
   inline Type f(Type a, Type b) {
-    return a + b;
+    return max(a, b);
   }
+  /*------------------------------------*/
 
   int n;
   vector <Type> st;
 
-  void init(int _n, Type initValue = BASE_VALUE) {
+  void init(int _n, Type init_value = BASE_VALUE) {
     n = _n;
-    st.resize(2 * n, initValue);
+    st.resize(2 * n, init_value);
+  }
+
+  void build(Type *a) {
+    for (int i = n - 1; i >= 0; i--)
+      st[i + n] = a[i];
+    
+    for (int i = n - 1; i >= 1; i--)
+      st[i] = f(st[i << 1], st[i << 1 | 1]);
   }
 
   inline void update(int pos, Type value) {
