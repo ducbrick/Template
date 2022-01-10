@@ -1,3 +1,7 @@
+//get_dist, get_area, get_equation, get_intersection can't have Type be long long
+
+typedef long double Type;
+
 const int DIR_LEFT = -1,
           DIR_STRAIGHT = 0,
           DIR_RIGHT = 1,
@@ -6,11 +10,11 @@ const int DIR_LEFT = -1,
           LINES_COINCIDE = 1;
 
 struct Point {
-  double x, y;
+  Type x, y;
 
   Point() {}
 
-  Point(double _x, double _y) {
+  Point(Type _x, Type _y) {
     x = _x;
     y = _y;
   }
@@ -35,20 +39,16 @@ Point operator - (Point A, Point B) {
   return Point(A.x - B.x, A.y - B.y);
 }
 
-Point operator * (int k, Point A) {
+Point operator * (Type k, Point A) {
   return Point(k * A.x, k * A.y);
 }
 
-Point operator * (double k, Point A) {
-  return Point(k * A.x, k * A.y);
-}
-
-double operator * (Point A, Point B) {
+Type operator * (Point A, Point B) {
   return A.x * B.y - A.y * B.x;
 }
 
 int get_dir(Point A, Point B, Point C) {
-  double dir = (B - A) * (C - B);
+  Type dir = (B - A) * (C - B);
 
   if (abs(dir + 0.0) <= 1e-9)
     return DIR_STRAIGHT;
@@ -59,11 +59,15 @@ int get_dir(Point A, Point B, Point C) {
   return DIR_RIGHT;
 }
 
-double get_dist(Point A, Point B) {
+Type get_dist_sq(Point A, Point B) {
+  return (A.x - B.x) * (A.x - B.x) + (A.y - B.y) * (A.y - B.y);
+}
+
+Type get_dist(Point A, Point B) {
   return sqrt((A.x - B.x) * (A.x - B.x) + (A.y - B.y) * (A.y - B.y));
 }
 
-void get_line_equation(Line l, double &a, double &b, double &c) {
+void get_line_equation(Line l, Type &a, Type &b, Type &c) {
   Point A = l.A,
         B = l.B;
 
@@ -73,7 +77,7 @@ void get_line_equation(Line l, double &a, double &b, double &c) {
 }
 
 int get_intersection(Line l1, Line l2, Point &res) {
-  double a1, b1, c1, a2, b2, c2, D, Dx, Dy;
+  Type a1, b1, c1, a2, b2, c2, D, Dx, Dy;
 
   get_line_equation(l1, a1, b1, c1);
   get_line_equation(l2, a2, b2, c2);
@@ -95,15 +99,19 @@ int get_intersection(Line l1, Line l2, Point &res) {
   return LINES_PARALLEL;
 }
 
-double get_dist(Line l, Point A) {
-  double a, b, c;
+Type get_dist(Line l, Point A) {
+  Type a, b, c;
   get_line_equation(l, a, b, c);
 
   return abs(a * A.x + b * A.y + c) / sqrt(a * a + b * b);
 }
 
-double get_area(Point A, Point B, Point C) {
-  return abs((B - A) * (C - A)) / 2.0;
+Type get_area_2(Point A, Point B, Point C) {
+  return abs((B - A) * (C - A));
+}
+
+Type get_area(Point A, Point B, Point C) {
+  return abs((B - A) * (C - A)) / 2;
 }
 
 bool is_in_line(Line l, Point A) {
