@@ -34,5 +34,7 @@ struct Dsu{
 
     p[u] += p[v];
     p[v] = u;
+    
+    return true;
   }
 }
