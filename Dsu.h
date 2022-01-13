@@ -2,7 +2,7 @@ struct Dsu{
   vector <int> p;
 
   void init (int n) {
-    p.resize(n, -1);
+    p.resize(n + 1, -1);
   }
 
   int size(int u){
