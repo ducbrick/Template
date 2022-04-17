@@ -6,7 +6,7 @@ struct Dsu{
   }
 
   int size(int u){
-    if(p[u] > 0)
+    if(p[u] >= 0)
       return -1;
 
     return -p[u];
