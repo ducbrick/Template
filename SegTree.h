@@ -14,7 +14,7 @@ struct SegTree {
   vector <Type> st;
 
   void init(int _n, Type init_value = BASE_VALUE) {
-    n = _n;
+    n = _n + 1;
     st.resize(2 * n, init_value);
   }
 
