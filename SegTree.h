@@ -18,14 +18,6 @@ struct SegTree {
     st.resize(2 * n, init_value);
   }
 
-  void build(Type *a) {
-    for (int i = n - 1; i >= 0; i--)
-      st[i + n] = a[i];
-    
-    for (int i = n - 1; i >= 1; i--)
-      st[i] = f(st[i << 1], st[i << 1 | 1]);
-  }
-
   inline void update(int pos, Type value) {
     for (st[pos += n] = value; pos > 1; pos >>= 1)
       st[pos >> 1] = f(st[pos], st[pos ^ 1]);
