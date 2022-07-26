@@ -1,7 +1,7 @@
 struct Dsu{
   vector <int> p;
 
-  void init (int n) {
+  void init(int n) {
     p.resize(n + 1, -1);
   }
 
