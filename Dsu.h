@@ -1,4 +1,4 @@
-struct Dsu{
+struct Dsu {
   vector <int> p;
 
   void init(int n) {
