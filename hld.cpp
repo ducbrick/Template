@@ -1,10 +1,10 @@
-int h[MAX_N + 1];
+int sz[MAX_N + 1];
 
 void precalc(int u, int p = -1) {
   for (int v : adj[u])
     if (v != p) {
       precalc(v, u);
-      h[u] = max(h[u], h[v] + 1);
+      sz[u] += sz[v];
     }
 }
 
@@ -25,15 +25,15 @@ void dfs(int u) {
   node[lim].push_back(u);
 
   int nxt = -1,
-      nxt_h = -1;
+      nxt_sz = -1;
 
   for (int v : adj[u]) {
     if (v == p[u][0])
       continue;
 
-    if (h[v] > nxt_h) {
+    if (sz[v] > nxt_sz) {
       nxt = v,
-      nxt_h = h[v];
+      nxt_sz = sz[v];
     }
   }
 
