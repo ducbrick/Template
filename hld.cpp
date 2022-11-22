@@ -1,3 +1,13 @@
+int h[MAX_N + 1];
+
+void precalc(int u, int p = -1) {
+  for (int v : adj[u])
+    if (v != p) {
+      precalc(v, u);
+      h[u] = max(h[u], h[v] + 1);
+    }
+}
+
 int d[MAX_N + 1],
     p[MAX_N + 1][MAX_K + 1];
 
@@ -14,21 +24,36 @@ void dfs(int u) {
   id[u] = lim;
   node[lim].push_back(u);
 
-  bool many_children = false;
+  int nxt = -1,
+      nxt_h = -1;
 
   for (int v : adj[u]) {
     if (v == p[u][0])
       continue;
 
+    if (h[v] > nxt_h) {
+      nxt = v,
+      nxt_h = h[v];
+    }
+  }
+
+  if (nxt == -1)
+    return;
+
+  d[nxt] = d[u] + 1;
+  p[nxt][0] = u;
+  dfs(nxt);
+
+  for (int v : adj[u]) {
+    if (v == p[u][0] || v == nxt)
+      continue;
+
     d[v] = d[u] + 1;
     p[v][0] = u;
 
-    if (many_children) {
-      lim++;
-    }
+    lim++;
 
     dfs(v);
-    many_children = true;
   }
 }
 
